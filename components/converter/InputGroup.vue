@@ -1,5 +1,5 @@
 <template>
-  <div class="converter-currency-select">
+  <div class="input-group">
     <v-text-field
       class="input"
       :disabled="disabled"
@@ -22,7 +22,7 @@ import { defineComponent } from 'vue';
 import { CurrenciesListType } from '~/helpers/types';
 
 export default defineComponent({
-  name: 'ConverterCurrencySelect',
+  name: 'InputGroup',
 
   props: {
     value: {
@@ -78,7 +78,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.converter-currency-select {
+.input-group {
   display: flex;
 
   .input {

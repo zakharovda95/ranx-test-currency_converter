@@ -5,7 +5,7 @@
       <div class="left">
         <span>{{ $t('converter.enterVal') }}</span>
         <div class="left-group">
-          <ConverterCurrencySelect
+          <InputGroup
             :value="converterData.leftData.charCode"
             :input-value="converterData.leftData.value"
             :placeholder="$t('converter.placeholder')"
@@ -13,7 +13,7 @@
             @custom:updateInputValue="setInputData($event)"
           />
         </div>
-        <span>{{ $t('converter.selected') }} {{ converterData.leftData.name }}</span>
+        <span>{{ $t('converter.selected') }} {{ $t(converterData.leftData.charCode) }}</span>
       </div>
       <div class="action">
         <v-btn fab dark medium @click="exchange">
@@ -23,14 +23,14 @@
       <div class="right">
         <span>{{ $t('converter.result') }}</span>
         <div class="right-group">
-          <ConverterCurrencySelect
+          <InputGroup
             :value="converterData.rightData.charCode"
             :input-value="converterData.rightData.value"
             disabled
             @custom:updateValue="setRightData($event)"
           />
         </div>
-        <span>{{ $t('converter.selected') }} {{ converterData.rightData.name }}</span>
+        <span>{{ $t('converter.selected') }} {{ $t(converterData.rightData.charCode) }}</span>
       </div>
     </div>
   </v-card>
@@ -40,13 +40,11 @@
 import { defineComponent } from 'vue';
 
 import { mapMutations, mapGetters } from 'vuex';
-
-import ConverterCurrencySelect from '~/components/converter/ConverterCurrencySelect.vue';
+import InputGroup from '~/components/converter/InputGroup.vue';
 
 export default defineComponent({
   name: 'TheConverter',
-  components: { ConverterCurrencySelect },
-
+  components: { InputGroup },
   computed: {
     ...mapGetters({
       currentCurrency: 'currentCurrency',

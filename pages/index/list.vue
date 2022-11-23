@@ -1,19 +1,27 @@
 <template>
   <div class="list-page">
     <BaseCurrencySelect />
-    <div class="header">{{ $t('currencyListTitle') }}</div>
-    <CurrenciesTable />
+    <div v-if="isBaseCurrencySelected">
+      <div class="header">{{ $t('currencyListTitle') }}</div>
+      <CurrencyTable />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import CurrenciesTable from '../../components/currencies-list/CurrenciesTable.vue';
 import BaseCurrencySelect from '~/components/currencies-list/BaseCurrencySelect.vue';
+import CurrencyTable from '~/components/currencies-list/CurrencyTable.vue';
 
 export default defineComponent({
-  components: { BaseCurrencySelect, CurrenciesTable },
+  components: { CurrencyTable, BaseCurrencySelect },
+
+  computed: {
+    isBaseCurrencySelected(): boolean {
+      return !!this.$store.state.currencies.current.charCode;
+    },
+  },
 });
 </script>
 

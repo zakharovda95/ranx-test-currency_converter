@@ -3,9 +3,9 @@ export const currenciesSchema = {
   previousDate: '',
   list: {},
   current: {
-    name: 'RUB Российский рубль',
-    charCode: 'RUB',
-    value: '1',
+    name: '',
+    charCode: '',
+    value: '',
   },
 };
 

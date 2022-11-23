@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div v-if="$store.state.isLoading" class="loading" />
+    <div v-if="$store.state.isLoading" class="loading">{{ $t('loading') }}</div>
     <Nuxt v-else />
   </div>
 </template>
@@ -12,6 +12,10 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   asyncData({ store }: Context): void {
     store.dispatch('fetchCurrencies');
+  },
+
+  beforeMount(): void {
+    this.$router.replace('/list');
   },
 });
 </script>
@@ -28,6 +32,15 @@ export default defineComponent({
     width: 60%;
     margin: 0 auto;
   }
+}
+
+.loading {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
 }
 
 .theme--light.v-input--is-disabled input,

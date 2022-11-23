@@ -2,9 +2,15 @@
   <div class="base-currency-select">
     <div class="header">{{ $t('chooseBaseCurrency') }}</div>
     <select v-model="currentCurrency" class="select" name="currency-select">
-      <option v-for="option in currenciesList" :key="option.ID" class="option">
-        {{ option.CharCode }}
-        {{ option.Name }}
+      <option disabled value="">{{ $t('chooseBaseCurrency') }}</option>
+      <option
+        :key="option.ID"
+        v-for="option in currenciesList"
+        selected
+        :value="option.CharCode"
+        class="option"
+      >
+        {{ option.CharCode }} {{ $t(option.CharCode) }}
       </option>
     </select>
   </div>
@@ -31,7 +37,7 @@ export default defineComponent({
       set(val: string) {
         const code: string = val.slice(0, 3);
         const data: CurrentCurrencyType = {
-          name: this.currenciesList[code].CharCode + ' ' + this.currenciesList[code].Name,
+          name: val,
           charCode: this.currenciesList[code].CharCode,
           value: this.currenciesList[code].Value,
         };

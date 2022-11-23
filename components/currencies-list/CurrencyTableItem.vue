@@ -4,7 +4,7 @@
       <div class="header-content">
         <span class="code">{{ formattedData.NumCode }}</span>
         <span class="name">{{ formattedData.CharCode }}</span>
-        <span class="name">{{ formattedData.Name }}</span>
+        <span class="name">{{ $t(formattedData.CharCode) }}</span>
       </div>
     </v-expansion-panel-header>
 
@@ -37,7 +37,7 @@ import { cloneDeep } from 'lodash';
 import { CurrencyDataType, CurrentCurrencyType } from '~/helpers/types';
 
 export default defineComponent({
-  name: 'CurrenciesTableItem',
+  name: 'CurrencyTableItem',
 
   props: {
     data: {

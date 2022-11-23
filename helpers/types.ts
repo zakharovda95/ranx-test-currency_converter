@@ -25,6 +25,7 @@ export interface ConverterType {
 
 export interface IndexStoreStateType {
   isLoading: boolean;
+  lang: string;
   currencies: {
     date: string;
     previousDate: string;

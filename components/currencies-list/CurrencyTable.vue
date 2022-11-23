@@ -1,18 +1,18 @@
 <template>
   <v-expansion-panels>
-    <CurrenciesTableItem v-for="item in currenciesList" :key="item.ID" :data="item" />
+    <CurrencyTableItem v-for="item in currenciesList" :key="item.ID" :data="item" />
   </v-expansion-panels>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import CurrenciesTableItem from '~/components/currencies-list/CurrenciesTableItem.vue';
+import CurrencyTableItem from '~/components/currencies-list/CurrencyTableItem.vue';
 
 export default defineComponent({
   name: 'CurrencyTable',
 
-  components: { CurrenciesTableItem },
+  components: { CurrencyTableItem },
 
   computed: {
     currenciesList() {

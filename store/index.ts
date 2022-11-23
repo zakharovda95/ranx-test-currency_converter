@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/named
+import { cloneDeep } from 'lodash';
 import {
   ConverterType,
   CurrenciesDTO,
@@ -7,12 +9,12 @@ import {
 } from '~/helpers/types';
 
 import { fetchData } from '~/helpers/requests';
-import { cloneDeep } from 'lodash';
 
 import { converterSchema, currenciesSchema, RUBSchema } from '~/helpers/schemas';
 
 export const state = (): IndexStoreStateType => ({
   isLoading: false,
+  lang: '',
   currencies: cloneDeep(currenciesSchema),
   converter: cloneDeep(converterSchema),
 });

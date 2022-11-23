@@ -7,7 +7,7 @@
       </select>
     </div>
     <div class="date">
-      <span>{{ $t('date.date') }} {{ $store.state.currencies.date }}</span>
+      <span>{{ $t('date.date') }} {{ dateNow }}</span>
     </div>
     <div class="link-group">
       <nuxt-link class="link" :to="localePath('/list')"> {{ $t('links.toList') }} </nuxt-link>
@@ -16,16 +16,27 @@
       </nuxt-link>
     </div>
     <div class="date">
-      <span>{{ $t('date.updated') }} {{ $store.state.currencies.previousDate }}</span>
+      <span>{{ $t('date.updated') }} {{ lastUpdate }}</span>
     </div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import moment from 'moment';
 
 export default defineComponent({
   name: 'TheNavbar',
+
+  computed: {
+    dateNow() {
+      return moment(this.$store.state.currencies.date).format('DD.MM.yy');
+    },
+
+    lastUpdate() {
+      return moment(this.$store.state.currencies.previousDate).format('DD.MM.yy');
+    },
+  },
 });
 </script>
 
@@ -39,6 +50,16 @@ export default defineComponent({
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    .select {
+      margin: 12px;
+      select {
+        padding: 5px;
+      }
+      option {
+        padding: 5px;
+      }
+    }
 
     .date {
       font-size: 0.7rem;
