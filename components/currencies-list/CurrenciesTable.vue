@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panels>
-    <CurrenciesTableItem v-for="item in $store.state.currencies.list" :key="item.ID" :data="item" />
+    <CurrenciesTableItem v-for="item in currenciesList" :key="item.ID" :data="item" />
   </v-expansion-panels>
 </template>
 

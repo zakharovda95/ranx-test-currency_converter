@@ -16,7 +16,7 @@
         </div>
 
         <div class="action">
-          <v-btn fab dark medium @click="reverseValue = !reverseValue">
+          <v-btn fab dark medium @click="changeReverse">
             <v-icon large> mdi-arrow-left-right </v-icon>
           </v-btn>
         </div>
@@ -32,6 +32,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+// eslint-disable-next-line import/named
 import { cloneDeep } from 'lodash';
 import { CurrencyDataType, CurrentCurrencyType } from '~/helpers/types';
 
@@ -58,21 +59,22 @@ export default defineComponent({
   }),
 
   computed: {
-    hidden() {
+    hidden(): boolean {
       return this.currentCurrency.charCode === this.formattedData.CharCode;
     },
+
     currentCurrency(): CurrentCurrencyType {
       return this.$store.getters.currentCurrency;
     },
 
     formattedData(): CurrencyDataType {
       const dataProxy: CurrencyDataType = cloneDeep(this.data);
-      if (dataProxy.Nominal > 1) {
+      if (dataProxy.Previous && dataProxy.Nominal && dataProxy.Nominal > 1) {
         dataProxy.Value /= dataProxy!.Nominal;
         dataProxy.Previous /= dataProxy.Nominal;
         dataProxy.Nominal = 1;
       }
-      if (dataProxy.Nominal < 1) {
+      if (dataProxy.Previous && dataProxy.Nominal && dataProxy.Nominal < 1) {
         dataProxy.Value *= dataProxy.Nominal;
         dataProxy.Previous *= dataProxy.Nominal;
         dataProxy.Nominal = 1;
@@ -86,7 +88,7 @@ export default defineComponent({
       deep: true,
       immediate: true,
       handler() {
-        this.reverseWithOtherBase();
+        this.calculate();
       },
     },
 
@@ -94,13 +96,18 @@ export default defineComponent({
       deep: true,
       immediate: true,
       handler() {
-        this.reverseWithOtherBase();
+        this.calculate();
       },
     },
   },
 
   methods: {
-    reverseWithOtherBase() {
+    changeReverse(): void {
+      this.reverseValue = !this.reverseValue;
+      this.calculate();
+    },
+
+    calculate(): void {
       const currentCurrencyValue: number = +this.currentCurrency.value;
       const convertCurrencyValue: number = this.formattedData.Value;
 

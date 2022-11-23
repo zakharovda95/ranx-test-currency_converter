@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { cloneDeep } from 'lodash';
+import { CurrenciesListType } from '~/helpers/types';
 
 export default defineComponent({
   name: 'ConverterCurrencySelect',
@@ -51,12 +51,12 @@ export default defineComponent({
   emits: ['custom:updateValue', 'custom:updateInputValue'],
 
   computed: {
-    currenciesList() {
-      return cloneDeep(this.$store.getters.currenciesList);
+    currenciesList(): CurrenciesListType {
+      return this.$store.getters.currenciesList;
     },
 
     valueProxy: {
-      get() {
+      get(): string {
         return this.value;
       },
       set(val: string) {

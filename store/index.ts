@@ -31,8 +31,8 @@ export const mutations = {
   },
 
   setCurrenciesList(state: IndexStoreStateType, list: CurrenciesListType): void {
+    list.RUB = cloneDeep(RUBSchema);
     state.currencies.list = list;
-    state.currencies.list.RUB = cloneDeep(RUBSchema);
   },
 
   setCurrentCurrency(state: IndexStoreStateType, value: CurrentCurrencyType): void {

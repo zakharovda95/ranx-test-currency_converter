@@ -12,7 +12,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+// eslint-disable-next-line import/named
 import { cloneDeep } from 'lodash';
+import { CurrentCurrencyType } from '~/helpers/types';
 
 export default defineComponent({
   name: 'BaseCurrencySelect',
@@ -26,9 +28,9 @@ export default defineComponent({
       get() {
         return this.$store.getters.currentCurrency.name;
       },
-      set(val) {
-        const code = val.slice(0, 3);
-        const data = {
+      set(val: string) {
+        const code: string = val.slice(0, 3);
+        const data: CurrentCurrencyType = {
           name: this.currenciesList[code].CharCode + ' ' + this.currenciesList[code].Name,
           charCode: this.currenciesList[code].CharCode,
           value: this.currenciesList[code].Value,
