@@ -3,6 +3,7 @@
     <v-expansion-panel-header>
       <div class="header-content">
         <span class="code">{{ formattedData.NumCode }}</span>
+        <span class="name">{{ formattedData.CharCode }}</span>
         <span class="name">{{ formattedData.Name }}</span>
       </div>
     </v-expansion-panel-header>
@@ -65,9 +66,9 @@ export default defineComponent({
     },
 
     formattedData(): CurrencyDataType {
-      const dataProxy = cloneDeep(this.data);
+      const dataProxy: CurrencyDataType = cloneDeep(this.data);
       if (dataProxy.Nominal > 1) {
-        dataProxy.Value /= dataProxy.Nominal;
+        dataProxy.Value /= dataProxy!.Nominal;
         dataProxy.Previous /= dataProxy.Nominal;
         dataProxy.Nominal = 1;
       }
@@ -85,11 +86,7 @@ export default defineComponent({
       deep: true,
       immediate: true,
       handler() {
-        if (this.currentCurrency.charCode === 'RUB') {
-          this.reverseWithBaseRUB();
-        } else {
-          this.reverseWithOtherBase();
-        }
+        this.reverseWithOtherBase();
       },
     },
 
@@ -97,31 +94,16 @@ export default defineComponent({
       deep: true,
       immediate: true,
       handler() {
-        if (this.currentCurrency.charCode === 'RUB') {
-          this.reverseWithBaseRUB();
-        } else {
-          this.reverseWithOtherBase();
-        }
+        this.reverseWithOtherBase();
       },
     },
   },
 
   methods: {
-    reverseWithBaseRUB() {
-      if (!this.reverseValue) {
-        this.leftData.charCode = this.formattedData.CharCode;
-        this.rightData.value = this.formattedData.Value.toFixed(4);
-        this.rightData.charCode = this.currentCurrency.charCode;
-      } else {
-        this.leftData.charCode = this.currentCurrency.charCode;
-        this.rightData.charCode = this.formattedData.CharCode;
-        this.rightData.value = (this.leftData.nominal / this.formattedData.Value).toFixed(4);
-      }
-    },
-
     reverseWithOtherBase() {
-      const currentCurrencyValue = this.currentCurrency.value;
-      const convertCurrencyValue = this.formattedData.Value;
+      const currentCurrencyValue: number = +this.currentCurrency.value;
+      const convertCurrencyValue: number = this.formattedData.Value;
+
       if (!this.reverseValue) {
         this.leftData.charCode = this.formattedData.CharCode;
         this.rightData.charCode = this.currentCurrency.charCode;

@@ -33,8 +33,135 @@ export default {
   buildModules: ['@nuxt/typescript-build', '@nuxtjs/vuetify'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/pwa'],
+  modules: ['@nuxtjs/pwa', '@nuxtjs/i18n'],
+  i18n: {
+    locales: ['en', 'ru'],
+    defaultLocale: 'ru',
+    vueI18n: {
+      fallbackLocale: 'en',
+      messages: {
+        en: {
+          currencyListTitle: 'Currency list',
+          chooseBaseCurrency: 'Select main currency',
 
+          links: {
+            toList: 'Currency list',
+            toConverter: 'Currency converter',
+          },
+
+          date: {
+            date: 'Date:',
+            updated: 'Updated:',
+          },
+
+          converter: {
+            converter: 'Currency converter',
+            enterVal: 'Enter value to convert',
+            result: 'Result',
+            selected: 'Selected:',
+            placeholder: 'Enter value',
+          },
+
+          list: {
+            AUD: 'Australian dollar',
+            AZN: 'Azerbaijani manat',
+            GBP: 'British Pound Sterling',
+            AMD: 'Armenian Dram',
+            BYN: 'Belarusian ruble',
+            BGN: 'Bulgarian lev',
+            BRL: 'Brazilian real',
+            HUF: 'Hungarian Forint',
+            HKD: 'Hong Kong dollar',
+            DKK: 'Danish krone',
+            USD: 'US Dollar',
+            EUR: 'Euro',
+            INR: 'Indian rupees',
+            KZT: 'Kazakhstan tenge',
+            CAD: 'Canadian dollar',
+            KGS: 'Kyrgyzstani som',
+            CHY: 'Chinese Yuan',
+            MDL: 'Moldovan lei',
+            NOK: 'NOK',
+            PLN: 'Polish zloty',
+            RON: 'Romanian ley',
+            XDR: 'SDR (Special Drawing Rights)',
+            SGD: 'Singapore dollar',
+            TJS: 'Tajikistani somoni',
+            TRY: 'Turkish Lira',
+            TMT: 'New Turkmen manat',
+            UZS: 'Uzbek sum',
+            UAH: 'Ukrainian hryvnia',
+            CZK: 'Czech crowns',
+            SEK: 'Swedish krona',
+            CHF: 'Swiss franc',
+            ZAR: 'South African rand',
+            KRW: 'Korean Won',
+            JPY: 'Japanese yen',
+          },
+        },
+
+        ru: {
+          currencyListTitle: 'Список валют',
+          chooseBaseCurrency: 'Выберите основную валюту',
+
+          links: {
+            toList: 'Список валют',
+            toConverter: 'Конвертер валют',
+          },
+
+          date: {
+            date: 'Дата:',
+            updated: 'Обновлено:',
+          },
+
+          converter: {
+            converter: 'Конвертер валют',
+            enterVal: 'Введите значение для конвертации',
+            result: 'Результат',
+            selected: 'Выбрано:',
+            placeholder: 'Введите значение',
+          },
+
+          list: {
+            AUD: 'Австралийский доллар',
+            AZN: 'Азербайджанский манат',
+            GBP: 'Фунт стерлингов СК',
+            AMD: 'Армянский драм',
+            BYN: 'Белорусский рубль',
+            BGN: 'Болгарский лев',
+            BRL: 'Бразильский реал',
+            HUF: 'Венгерский форинт',
+            HKD: 'Гонконгский доллар',
+            DKK: 'Датская крона',
+            USD: 'Доллар США',
+            EUR: 'Евро',
+            INR: 'Индийская рупия',
+            KZT: 'Казахстанский тенге',
+            CAD: 'Канадский доллар',
+            KGS: 'Киргизский сом',
+            CHY: 'Китайский юань',
+            MDL: 'Молдавская лея',
+            NOK: 'Норвежская крона',
+            PLN: 'Польский злотый',
+            RON: 'Румынский лей',
+            XDR: 'СДР',
+            SGD: 'Сингапурский доллар',
+            TJS: 'Таджикский сомони',
+            TRY: 'Турецкая лира',
+            TMT: 'Новый туркменский манат',
+            UZS: 'Узбекская сума',
+            UAH: 'Украинская гривна',
+            CZK: 'Чешская крона',
+            SEK: 'Шведская крона',
+            CHF: 'Швейцарский франк',
+            ZAR: 'Южноафриканский рэнд',
+            KRW: 'Вон республики Корея',
+            JPY: 'Японский йен',
+          },
+        },
+      },
+    },
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308

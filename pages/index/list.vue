@@ -1,7 +1,7 @@
 <template>
   <div class="list-page">
     <BaseCurrencySelect />
-    <div class="header">Список валют</div>
+    <div class="header">{{ $t('currencyListTitle') }}</div>
     <CurrenciesTable />
   </div>
 </template>

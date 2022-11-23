@@ -1,6 +1,6 @@
 <template>
   <div class="converter-page">
-    <TheConverter />
+    <TheConverter class="converter" />
   </div>
 </template>
 
@@ -17,5 +17,9 @@ export default defineComponent({
 <style scoped lang="scss">
 .converter-page {
   padding: 12px;
+
+  .converter {
+    margin-top: 24px;
+  }
 }
 </style>

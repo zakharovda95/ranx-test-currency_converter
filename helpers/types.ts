@@ -34,3 +34,11 @@ export interface IndexStoreStateType {
 
   converter: ConverterType;
 }
+
+export interface CurrenciesDTO {
+  Date: string;
+  PreviousDate: string;
+  PreviousURL: string;
+  Timestamp: string;
+  Valute: CurrenciesListType;
+}

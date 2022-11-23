@@ -1,6 +1,6 @@
 <template>
   <div class="base-currency-select">
-    <div class="header">Выберите основную валюту</div>
+    <div class="header">{{ $t('chooseBaseCurrency') }}</div>
     <select v-model="currentCurrency" class="select" name="currency-select">
       <option v-for="option in currenciesList" :key="option.ID" class="option">
         {{ option.CharCode }}
@@ -19,13 +19,7 @@ export default defineComponent({
 
   computed: {
     currenciesList() {
-      const obj = cloneDeep(this.$store.getters.currenciesList);
-      obj.RUB = {
-        Name: 'Российский рубль',
-        CharCode: 'RUB',
-        Value: 1,
-      };
-      return obj;
+      return cloneDeep(this.$store.getters.currenciesList);
     },
 
     currentCurrency: {

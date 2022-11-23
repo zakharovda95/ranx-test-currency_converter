@@ -1,14 +1,22 @@
 <template>
   <div class="the-navbar">
+    <div class="select">
+      <select v-model="$i18n.locale">
+        <option value="ru">RU</option>
+        <option value="en">EN</option>
+      </select>
+    </div>
     <div class="date">
-      <span>Дата: {{ $store.state.currencies.date }}</span>
+      <span>{{ $t('date.date') }} {{ $store.state.currencies.date }}</span>
     </div>
     <div class="link-group">
-      <nuxt-link class="link" to="/list"> Список Валют </nuxt-link>
-      <nuxt-link class="link" to="/converter"> Конвертер Валют </nuxt-link>
+      <nuxt-link class="link" :to="localePath('/list')"> {{ $t('links.toList') }} </nuxt-link>
+      <nuxt-link class="link" :to="localePath('/converter')">
+        {{ $t('links.toConverter') }}
+      </nuxt-link>
     </div>
     <div class="date">
-      <span>Обновлено: {{ $store.state.currencies.previousDate }}</span>
+      <span>{{ $t('date.updated') }} {{ $store.state.currencies.previousDate }}</span>
     </div>
   </div>
 </template>
@@ -62,6 +70,16 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .select {
+      margin: 12px;
+      select {
+        padding: 5px;
+      }
+      option {
+        padding: 5px;
+      }
+    }
 
     .date {
       margin: 0;

@@ -1,35 +1,20 @@
 import {
   ConverterType,
+  CurrenciesDTO,
   CurrenciesListType,
   CurrentCurrencyType,
   IndexStoreStateType,
 } from '~/helpers/types';
+
 import { fetchData } from '~/helpers/requests';
+import { cloneDeep } from 'lodash';
+
+import { converterSchema, currenciesSchema, RUBSchema } from '~/helpers/schemas';
 
 export const state = (): IndexStoreStateType => ({
   isLoading: false,
-  currencies: {
-    date: '',
-    previousDate: '',
-    list: {},
-    current: {
-      name: 'RUB Российский рубль',
-      charCode: 'RUB',
-      value: '1',
-    },
-  },
-  converter: {
-    leftData: {
-      name: 'Российский рубль',
-      charCode: 'RUB',
-      value: '0',
-    },
-    rightData: {
-      name: 'Доллар США',
-      charCode: 'USD',
-      value: '0',
-    },
-  },
+  currencies: cloneDeep(currenciesSchema),
+  converter: cloneDeep(converterSchema),
 });
 
 export const mutations = {
@@ -47,6 +32,7 @@ export const mutations = {
 
   setCurrenciesList(state: IndexStoreStateType, list: CurrenciesListType): void {
     state.currencies.list = list;
+    state.currencies.list.RUB = cloneDeep(RUBSchema);
   },
 
   setCurrentCurrency(state: IndexStoreStateType, value: CurrentCurrencyType): void {
@@ -76,35 +62,19 @@ export const mutations = {
   },
 
   setConverterRightData(state: IndexStoreStateType) {
-    if (state.converter.leftData.charCode === 'RUB') {
-      const dataRight = state.currencies.list[state.converter.rightData.charCode];
-      state.converter.rightData.value = String(
-        (+state.converter.leftData.value / dataRight.Value).toFixed(4),
-      );
-    } else {
-      const leftValue: number = state.currencies.list[state.converter.leftData.charCode].Value;
-      const rightValue: number = state.currencies.list[state.converter.rightData.charCode].Value;
-      const index: number = leftValue / rightValue;
-      state.converter.rightData.value = String(
-        (+state.converter.leftData.value * index).toFixed(4),
-      );
-    }
+    const leftValue: number = state.currencies.list[state.converter.leftData.charCode].Value;
+    const rightValue: number = state.currencies.list[state.converter.rightData.charCode].Value;
+    const index: number = leftValue / rightValue;
+
+    state.converter.rightData.value = String((+state.converter.leftData.value * index).toFixed(4));
   },
 
   setConverterLeftData(state: IndexStoreStateType) {
-    if (state.converter.leftData.charCode === 'RUB') {
-      const dataRight = state.currencies.list[state.converter.rightData.charCode];
-      state.converter.rightData.value = String(
-        (+state.converter.leftData.value * dataRight.Value).toFixed(4),
-      );
-    } else {
-      const leftValue: number = state.currencies.list[state.converter.rightData.charCode].Value;
-      const rightValue: number = state.currencies.list[state.converter.leftData.charCode].Value;
-      const index: number = leftValue / rightValue;
-      state.converter.rightData.value = String(
-        (+state.converter.leftData.value * index).toFixed(4),
-      );
-    }
+    const leftValue: number = state.currencies.list[state.converter.rightData.charCode].Value;
+    const rightValue: number = state.currencies.list[state.converter.leftData.charCode].Value;
+    const index: number = leftValue / rightValue;
+
+    state.converter.rightData.value = String((+state.converter.leftData.value * index).toFixed(4));
   },
 };
 
@@ -112,7 +82,7 @@ export const actions = {
   async fetchCurrencies({ commit }: any): Promise<void> {
     try {
       commit('setIsLoadingValue', true);
-      const res = await fetchData();
+      const res: CurrenciesDTO = await fetchData();
       if (res) {
         commit('setCurrenciesDate', res.Date);
         commit('setCurrenciesPreviousDate', res.PreviousDate);

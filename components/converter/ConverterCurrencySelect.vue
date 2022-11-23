@@ -3,6 +3,7 @@
     <v-text-field
       class="input"
       :disabled="disabled"
+      type="number"
       :value="inputValue"
       :placeholder="placeholder"
       outlined
@@ -51,13 +52,7 @@ export default defineComponent({
 
   computed: {
     currenciesList() {
-      const obj = cloneDeep(this.$store.getters.currenciesList);
-      obj.RUB = {
-        Name: 'Российский рубль',
-        CharCode: 'RUB',
-        Value: 1,
-      };
-      return obj;
+      return cloneDeep(this.$store.getters.currenciesList);
     },
 
     valueProxy: {
@@ -74,6 +69,8 @@ export default defineComponent({
     setValue(val: string) {
       if (/[0-9]/gi.test(val)) {
         this.$emit('custom:updateInputValue', val);
+      } else {
+        this.$emit('custom:updateInputValue', '');
       }
     },
   },

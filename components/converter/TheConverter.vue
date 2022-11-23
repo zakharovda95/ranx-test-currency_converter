@@ -1,27 +1,27 @@
 <template>
-  <v-card min-height="300px" outlined>
-    <div class="title">Конвертер валют</div>
+  <v-card class="card" min-height="300px" outlined>
+    <div class="title">{{ $t('converter.converter') }}</div>
     <div class="content">
       <div class="left">
-        <span>Введите значение для ковертации</span>
+        <span>{{ $t('converter.enterVal') }}</span>
         <div class="left-group">
           <ConverterCurrencySelect
             :value="converterData.leftData.charCode"
             :input-value="converterData.leftData.value"
-            placeholder="Введите значение"
+            :placeholder="$t('converter.placeholder')"
             @custom:updateValue="setLeftData($event)"
             @custom:updateInputValue="setInputData($event)"
           />
         </div>
-        <span>Выбрано: {{ converterData.leftData.name }}</span>
+        <span>{{ $t('converter.selected') }} {{ converterData.leftData.name }}</span>
       </div>
       <div class="action">
-        <v-btn fab dark medium @click="reverseValue = !reverseValue">
+        <v-btn fab dark medium @click="exchange">
           <v-icon large> mdi-arrow-left-right </v-icon>
         </v-btn>
       </div>
       <div class="right">
-        <span>Результат</span>
+        <span>{{ $t('converter.result') }}</span>
         <div class="right-group">
           <ConverterCurrencySelect
             :value="converterData.rightData.charCode"
@@ -30,10 +30,9 @@
             @custom:updateValue="setRightData($event)"
           />
         </div>
-        <span>Выбрано: {{ converterData.rightData.name }}</span>
+        <span>{{ $t('converter.selected') }} {{ converterData.rightData.name }}</span>
       </div>
     </div>
-    {{ converterData }}
   </v-card>
 </template>
 
@@ -59,20 +58,6 @@ export default defineComponent({
     reverseValue: false,
   }),
 
-  watch: {
-    reverseValue: {
-      deep: true,
-      immediate: true,
-      handler() {
-        if (this.reverseValue) {
-          this.setConverterLeftData();
-        } else {
-          this.setConverterRightData();
-        }
-      },
-    },
-  },
-
   methods: {
     ...mapMutations({
       setConverterLeftCharCode: 'setConverterLeftCharCode',
@@ -84,10 +69,28 @@ export default defineComponent({
       setConverterLeftData: 'setConverterLeftData',
     }),
 
+    exchange() {
+      this.reverseValue = !this.reverseValue;
+      const leftCharCode = this.converterData.leftData.charCode;
+      const rightCharCode = this.converterData.rightData.charCode;
+      const leftName = this.converterData.leftData.name;
+      const rightName = this.converterData.rightData.name;
+
+      if (this.reverseValue) {
+        this.setConverterLeftData();
+      } else {
+        this.setConverterRightData();
+      }
+      this.setConverterLeftCharCode(rightCharCode);
+      this.setConverterRightCharCode(leftCharCode);
+      this.setConverterLeftName(rightName);
+      this.setConverterRightName(leftName);
+    },
+
     setLeftData(val: { [key: string]: string }) {
       this.setConverterLeftCharCode(val.charCode);
       this.setConverterLeftName(val.name);
-      this.setConverterLeftData();
+      this.setConverterRightData();
     },
 
     setRightData(val: { [key: string]: string }) {
@@ -105,28 +108,65 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.title {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  font-size: 2rem;
-  margin: 12px 0;
-}
-.content {
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
+@media (max-width: 1023px) {
+  .title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 12px 0;
+  }
+  .content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
 
-.left,
-.right,
-.action {
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  .left,
+  .right,
+  .action {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .action {
+    margin: 24px 0;
+  }
+}
+@media (min-width: 1024px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .title {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      font-size: 2rem;
+    }
+    .content {
+      display: flex;
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .left,
+    .right,
+    .action {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
 </style>
