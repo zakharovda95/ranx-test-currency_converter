@@ -1,7 +1,7 @@
 <template>
   <div class="the-navbar">
     <div class="select">
-      <select v-model="$i18n.locale">
+      <select v-model="lang">
         <option value="ru">RU</option>
         <option value="en">EN</option>
       </select>
@@ -10,8 +10,10 @@
       <span>{{ $t('date.date') }} {{ dateNow }}</span>
     </div>
     <div class="link-group">
-      <nuxt-link class="link" :to="localePath('/list')"> {{ $t('links.toList') }} </nuxt-link>
-      <nuxt-link class="link" :to="localePath('/converter')">
+      <nuxt-link ref="link" class="link" active-class="nuxt-link-active" :to="localePath('/list')">
+        {{ $t('links.toList') }}
+      </nuxt-link>
+      <nuxt-link active-class="nuxt-link-active" class="link" :to="localePath('/converter')">
         {{ $t('links.toConverter') }}
       </nuxt-link>
     </div>
@@ -36,6 +38,20 @@ export default defineComponent({
     lastUpdate() {
       return moment(this.$store.state.currencies.previousDate).format('DD.MM.yy');
     },
+
+    lang: {
+      get() {
+        return this.$store.state.lang;
+      },
+      set(val) {
+        this.$store.commit('setLang', val);
+        localStorage.setItem('lang', JSON.stringify(val));
+      },
+    },
+  },
+
+  mounted() {
+    this.$refs.link.className = 'nuxt-link-active';
   },
 });
 </script>
@@ -45,7 +61,8 @@ export default defineComponent({
   .the-navbar {
     width: 100vw;
     min-height: 60px;
-    background: #969696;
+    background: #71d7f1;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -87,7 +104,8 @@ export default defineComponent({
   .the-navbar {
     width: 100vw;
     height: 60px;
-    background: #969696;
+    background: #71d7f1;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -126,6 +144,10 @@ export default defineComponent({
 }
 
 .nuxt-link-active {
+  font-weight: bold;
+}
+
+.nuxt-link-exact-active {
   font-weight: bold;
 }
 </style>

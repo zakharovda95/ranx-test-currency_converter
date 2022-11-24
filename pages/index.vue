@@ -14,8 +14,27 @@ export default defineComponent({
     store.dispatch('fetchCurrencies');
   },
 
-  beforeMount(): void {
-    this.$router.replace('/list');
+  computed: {
+    lang() {
+      return this.$store.getters.lang;
+    },
+  },
+
+  beforeMount() {
+    const el = localStorage.getItem('lang');
+    if (el === 'en' || el === 'ru') {
+      this.$i18n.locale = el;
+    }
+  },
+
+  watch: {
+    lang: {
+      deep: true,
+      immediate: true,
+      handler() {
+        this.$i18n.locale = this.lang;
+      },
+    },
   },
 });
 </script>

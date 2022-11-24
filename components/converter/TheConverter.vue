@@ -64,7 +64,6 @@ export default defineComponent({
       setConverterRightName: 'setConverterRightName',
       setConverterLeftValue: 'setConverterLeftValue',
       setConverterRightData: 'setConverterRightData',
-      setConverterLeftData: 'setConverterLeftData',
     }),
 
     exchange() {
@@ -73,16 +72,11 @@ export default defineComponent({
       const rightCharCode = this.converterData.rightData.charCode;
       const leftName = this.converterData.leftData.name;
       const rightName = this.converterData.rightData.name;
-
-      if (this.reverseValue) {
-        this.setConverterLeftData();
-      } else {
-        this.setConverterRightData();
-      }
       this.setConverterLeftCharCode(rightCharCode);
       this.setConverterRightCharCode(leftCharCode);
       this.setConverterLeftName(rightName);
       this.setConverterRightName(leftName);
+      this.setConverterRightData();
     },
 
     setLeftData(val: { [key: string]: string }) {

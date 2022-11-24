@@ -14,12 +14,16 @@ import { converterSchema, currenciesSchema, RUBSchema } from '~/helpers/schemas'
 
 export const state = (): IndexStoreStateType => ({
   isLoading: false,
-  lang: '',
+  lang: 'en',
   currencies: cloneDeep(currenciesSchema),
   converter: cloneDeep(converterSchema),
 });
 
 export const mutations = {
+  setLang(state: IndexStoreStateType, value: string): void {
+    state.lang = value;
+  },
+
   setIsLoadingValue(state: IndexStoreStateType, value: boolean): void {
     state.isLoading = value;
   },
@@ -34,6 +38,17 @@ export const mutations = {
 
   setCurrenciesList(state: IndexStoreStateType, list: CurrenciesListType): void {
     list.RUB = cloneDeep(RUBSchema);
+
+    for (const el in list) {
+      const item = list[el];
+      if (item.Nominal && item.Nominal > 1) {
+        item.Value = item.Value / item.Nominal;
+        item.Nominal = 1;
+      }
+    }
+
+    console.log(list);
+
     state.currencies.list = list;
   },
 
@@ -70,14 +85,6 @@ export const mutations = {
 
     state.converter.rightData.value = String((+state.converter.leftData.value * index).toFixed(4));
   },
-
-  setConverterLeftData(state: IndexStoreStateType) {
-    const leftValue: number = state.currencies.list[state.converter.rightData.charCode].Value;
-    const rightValue: number = state.currencies.list[state.converter.leftData.charCode].Value;
-    const index: number = leftValue / rightValue;
-
-    state.converter.rightData.value = String((+state.converter.leftData.value * index).toFixed(4));
-  },
 };
 
 export const actions = {
@@ -109,5 +116,9 @@ export const getters = {
 
   converter(state: IndexStoreStateType): ConverterType {
     return state.converter;
+  },
+
+  lang(state: IndexStoreStateType): string {
+    return state.lang;
   },
 };

@@ -32,8 +32,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-// eslint-disable-next-line import/named
-import { cloneDeep } from 'lodash';
 import { CurrencyDataType, CurrentCurrencyType } from '~/helpers/types';
 
 export default defineComponent({
@@ -68,31 +66,12 @@ export default defineComponent({
     },
 
     formattedData(): CurrencyDataType {
-      const dataProxy: CurrencyDataType = cloneDeep(this.data);
-      if (dataProxy.Previous && dataProxy.Nominal && dataProxy.Nominal > 1) {
-        dataProxy.Value /= dataProxy!.Nominal;
-        dataProxy.Previous /= dataProxy.Nominal;
-        dataProxy.Nominal = 1;
-      }
-      if (dataProxy.Previous && dataProxy.Nominal && dataProxy.Nominal < 1) {
-        dataProxy.Value *= dataProxy.Nominal;
-        dataProxy.Previous *= dataProxy.Nominal;
-        dataProxy.Nominal = 1;
-      }
-      return dataProxy;
+      return this.data;
     },
   },
 
   watch: {
     currentCurrency: {
-      deep: true,
-      immediate: true,
-      handler() {
-        this.calculate();
-      },
-    },
-
-    reverseValue: {
       deep: true,
       immediate: true,
       handler() {
